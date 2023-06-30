@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "key.location",
+  "type": "java.lang.String",
+  "description": "Where the pair key is stored'"
+}]}
