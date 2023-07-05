@@ -14,7 +14,18 @@ pipeline {
             steps {
                 // finir le process avec le port donné
                 bat "echo Security port: ${securityPort}"
-                bat "cmd /c netstat -ano | findstr :${securityPort} > nul && (for /f \"tokens=5\" %a in (\'netstat -ano ^| findstr :${securityPort}\') do taskkill /F /PID %a) || echo Pas de processus trouvés utilisant le port : ${securityPort}."
+				powershell """
+				if (Test-NetConnection -Port ${securityPort} -InformationLevel Quiet) {
+					Get-NetTCPConnection -LocalPort ${securityPort} | ForEach-Object { 
+						if ($_.OwningProcess -ne $PID) {
+							Stop-Process -Id $_.OwningProcess -Force
+						}
+					}
+					Write-Output "No processes found using the port ${securityPort}."
+				} else {
+					Write-Output "Port ${securityPort} is not in use."
+				}
+			"""
             }
 		}
         	
