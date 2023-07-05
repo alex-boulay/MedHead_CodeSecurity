@@ -212,8 +212,8 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Wrong login\",function(){\r",
-									"    pm.response.to.have.status(403)\r",
-									"    pm.response.text(\"\");\r",
+									"    pm.response.to.have.status(401)\r",
+									"    pm.response.text(\"Failed to log in.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -265,8 +265,8 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Wrong password\",function(){\r",
-									"    pm.response.to.have.status(403)\r",
-									"    pm.response.text(\"\");\r",
+									"    pm.response.to.have.status(401)\r",
+									"    pm.response.text(\"Failed to log in.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
