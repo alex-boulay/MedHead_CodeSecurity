@@ -3,12 +3,20 @@ def maxWaitTimeSeconds = 300
 def waitIntervalSeconds = 5
 def pid = -1
 
+def securityPort = 29007
+
 pipeline {
     agent any
     environment {
         PID = ''
     }
-    stages {        
+    stages {
+        stage('Preparation') {
+            steps {
+                // finir le process avec le port donné
+                bat 'cmd /c netstat -ano | findstr :${securityPort} > nul && (for /f "tokens=5" %a in (\'netstat -ano ^| findstr :${securityPort}\') do taskkill /F /PID %a) || echo Pas de processus trouvés utilisant le port : ${securityPort}.'
+            }
+        	
         stage('Build') {
             steps {
                 echo 'Building'
@@ -37,9 +45,12 @@ pipeline {
 						if (fileExists(outSpringFile)) {
 							def matchingLine = powershell(returnStdout: true, script: "Get-Content ${outSpringFile} | Select-String -Pattern 'DONE INITIALIZING'").trim()
 							doneInitializing = matchingLine ? true : false
-							
+							powershell(returnStdout: true, script: "Get-Content ${outSpringFile}")
 							echo "Initializing done ? ${doneInitializing}"
+						}else {
+							error("Output file '${outSpringFile}' does not exist.")
 						}
+						
 						if (!doneInitializing){
 							sleep(waitIntervalSeconds)
 						}
