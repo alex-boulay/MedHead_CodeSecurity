@@ -2,7 +2,6 @@ def outSpringFile = 'outSpringFile2.txt'
 def maxWaitTimeSeconds = 300
 def waitIntervalSeconds = 5
 def pid = -1
-
 def securityPort = 29007
 
 pipeline {
@@ -16,6 +15,7 @@ pipeline {
                 // finir le process avec le port donné
                 bat 'cmd /c netstat -ano | findstr :${securityPort} > nul && (for /f "tokens=5" %a in (\'netstat -ano ^| findstr :${securityPort}\') do taskkill /F /PID %a) || echo Pas de processus trouvés utilisant le port : ${securityPort}.'
             }
+		}
         	
         stage('Build') {
             steps {
