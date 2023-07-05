@@ -22,27 +22,23 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity	
 public class SecurityConfig {
 
-	private JwtAuthEntryPoint authEntryPoint;
+	//private JwtAuthEntryPoint authEntryPoint;
 
 	@Autowired 
-	public SecurityConfig(JwtAuthEntryPoint authEntryPoint) {
-		this.authEntryPoint = authEntryPoint;
+	public SecurityConfig(){//JwtAuthEntryPoint authEntryPoint) {
+		//this.authEntryPoint = authEntryPoint;
 	} 
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
         .cors().and()
         .csrf().disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(authEntryPoint)
-        .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeHttpRequests()
-        .requestMatchers("/**").permitAll();
+        .requestMatchers("/auth/**").permitAll();
 		http.headers().frameOptions().disable();
-		http.addFilterBefore(jwtAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
 		return http.build();  
     }
     
@@ -56,9 +52,5 @@ public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
     	return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
-    	return new JWTAuthenticationFilter();
     }
 }

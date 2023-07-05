@@ -1,7 +1,5 @@
 package com.ocal.medheadsecurity.controller;
 
-
-
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,14 +57,22 @@ public class AuthController {
 	@PostMapping("login")
 	@CrossOrigin(origins = "*")
     @ResponseBody
-	public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto){
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(
-						loginDto.getUsername(),
-						loginDto.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String token = jwtGenerator.generateToken(authentication);
-		return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.OK);
+	public ResponseEntity<?> login(@RequestBody LoginDTO loginDto){
+	    if (userRepository.existsByUsername(loginDto.getUsername())) {
+	        try {
+	            Authentication authentication = authenticationManager.authenticate(
+	                    new UsernamePasswordAuthenticationToken(
+	                            loginDto.getUsername(),
+	                            loginDto.getPassword()));
+	            SecurityContextHolder.getContext().setAuthentication(authentication);
+	            String token = jwtGenerator.generateToken(authentication);
+	            return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+	        } catch (AuthenticationException e) {
+	            return new ResponseEntity<>("Failed to log in.", HttpStatus.UNAUTHORIZED);
+	        }
+	    } else {
+	        return new ResponseEntity<>("Failed to log in.", HttpStatus.UNAUTHORIZED);
+	    }
 	}
 	
 	

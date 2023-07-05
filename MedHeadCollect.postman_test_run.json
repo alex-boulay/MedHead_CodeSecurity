@@ -1,0 +1,177 @@
+{
+	"id": "fbc5e807-1f2e-4364-bbd5-ac701939c815",
+	"name": "MedHeadCollect",
+	"timestamp": "2023-07-05T10:48:40.958Z",
+	"collection_id": "27429621-55b70057-37e0-484c-9ec6-b8176da46d4f",
+	"folder_id": 0,
+	"environment_id": "27429621-f1e1e4f6-f859-484b-8f57-7c75a7610589",
+	"totalPass": 5,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-07-05T10:48:39.724Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "4fc4ac1f-37d0-40d2-8084-cc6da5aa5f41",
+			"name": "register",
+			"url": "http://localhost:29007/auth/register",
+			"time": 97,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All status Ok": true
+			},
+			"testPassFailCounts": {
+				"All status Ok": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				97
+			],
+			"allTests": [
+				{
+					"All status Ok": true
+				}
+			]
+		},
+		{
+			"id": "35b4dff5-9256-466a-9193-baf9b7230092",
+			"name": "login",
+			"url": "http://localhost:29007/auth/login",
+			"time": 94,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"All status Ok": true
+			},
+			"testPassFailCounts": {
+				"All status Ok": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				94
+			],
+			"allTests": [
+				{
+					"All status Ok": true
+				}
+			]
+		},
+		{
+			"id": "b51453df-a8a9-4b51-8845-0121ed9f4e71",
+			"name": "Wrong register",
+			"url": "http://localhost:29007/auth/register",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Username Taken": true
+			},
+			"testPassFailCounts": {
+				"Username Taken": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Username Taken": true
+				}
+			]
+		},
+		{
+			"id": "18d6459d-49cc-4c58-a684-7c15100c820d",
+			"name": "Wrong Login",
+			"url": "http://localhost:29007/auth/login",
+			"time": 126,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Wrong login": true
+			},
+			"testPassFailCounts": {
+				"Wrong login": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				126
+			],
+			"allTests": [
+				{
+					"Wrong login": true
+				}
+			]
+		},
+		{
+			"id": "e8fd8215-088c-4e31-b453-47878b6e4714",
+			"name": "Wrong password",
+			"url": "http://localhost:29007/auth/login",
+			"time": 100,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Wrong password": true
+			},
+			"testPassFailCounts": {
+				"Wrong password": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				100
+			],
+			"allTests": [
+				{
+					"Wrong password": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 422,
+	"collection": {
+		"requests": [
+			{
+				"id": "4fc4ac1f-37d0-40d2-8084-cc6da5aa5f41",
+				"method": "POST"
+			},
+			{
+				"id": "35b4dff5-9256-466a-9193-baf9b7230092",
+				"method": "POST"
+			},
+			{
+				"id": "b51453df-a8a9-4b51-8845-0121ed9f4e71",
+				"method": "POST"
+			},
+			{
+				"id": "18d6459d-49cc-4c58-a684-7c15100c820d",
+				"method": "POST"
+			},
+			{
+				"id": "e8fd8215-088c-4e31-b453-47878b6e4714",
+				"method": "POST"
+			}
+		]
+	}
+}
