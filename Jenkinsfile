@@ -14,25 +14,23 @@ pipeline {
             steps {
                 // finir le process avec le port donné
                 bat "echo Security port: ${securityPort}"
-				try {
-					powershell(script: """
-						if (Test-NetConnection -Port ${securityPort} -InformationLevel Quiet) {
-							Get-NetTCPConnection -LocalPort ${securityPort} | ForEach-Object { 
-								if ($_.OwningProcess -ne $PID) {
-									Stop-Process -Id $_.OwningProcess -Force
-								}
+				powershell(script: """
+					\$port = ${securityPort}   # Assign Groovy variable to PowerShell variable
+
+					if (Test-NetConnection -Port \$port -InformationLevel Quiet) {
+						Get-NetTCPConnection -LocalPort \$port | ForEach-Object { 
+							if (\$_.OwningProcess -ne \$PID) {
+								Stop-Process -Id \$_.OwningProcess -Force
 							}
-							Write-Output "No processes found using the port ${securityPort}."
-						} else {
-							Write-Output "Port ${securityPort} is not in use."
 						}
-					""")
-				} catch (Exception e) {
-					// Log the error
-					error("An error occurred while executing the PowerShell script: ${e.getMessage()}")
-				}
-            }
+						Write-Output "No processes found using the port \$port."
+					} else {
+						Write-Output "Port \$port is not in use."
+					}
+				""")
+			}
 		}
+
         	
         stage('Build') {
             steps {
