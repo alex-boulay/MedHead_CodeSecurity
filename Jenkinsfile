@@ -14,7 +14,7 @@ pipeline {
             steps {
                 // finir le process avec le port donné
                 bat "echo Security port: ${securityPort}"
-				powershell """
+				powershell (script:"""
 				if (Test-NetConnection -Port ${securityPort} -InformationLevel Quiet) {
 					Get-NetTCPConnection -LocalPort ${securityPort} | ForEach-Object { 
 						if ($_.OwningProcess -ne $PID) {
@@ -25,7 +25,7 @@ pipeline {
 				} else {
 					Write-Output "Port ${securityPort} is not in use."
 				}
-			"""
+			""",returnStdout: true)
             }
 		}
         	
