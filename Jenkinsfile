@@ -14,18 +14,18 @@ pipeline {
             steps {
                 // finir le process avec le port donné
                 bat "echo Security port: ${securityPort}"
-				powershell (script:"""
-				if (Test-NetConnection -Port ${securityPort} -InformationLevel Quiet) {
-					Get-NetTCPConnection -LocalPort ${securityPort} | ForEach-Object { 
-						if ($_.OwningProcess -ne $PID) {
-							Stop-Process -Id $_.OwningProcess -Force
+				powershell(script: """
+					if (Test-NetConnection -Port ${securityPort} -InformationLevel Quiet) {
+						Get-NetTCPConnection -LocalPort ${securityPort} | ForEach-Object { 
+							if ($_.OwningProcess -ne $PID) {
+								Stop-Process -Id $_.OwningProcess -Force
+							}
 						}
+						Write-Output "No processes found using the port ${securityPort}."
+					} else {
+						Write-Output "Port ${securityPort} is not in use."
 					}
-					Write-Output "No processes found using the port ${securityPort}."
-				} else {
-					Write-Output "Port ${securityPort} is not in use."
-				}
-			""",returnStdout: true)
+				""")
             }
 		}
         	
