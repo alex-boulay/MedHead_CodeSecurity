@@ -14,7 +14,7 @@ pipeline {
             steps {
                 // finir le process avec le port donné
                 bat "echo Security port: ${securityPort}"
-                bat 'cmd /c netstat -ano | findstr :${securityPort} > nul && (for /f "tokens=5" %a in (\'netstat -ano ^| findstr :${securityPort}\') do taskkill /F /PID %a) || echo Pas de processus trouvés utilisant le port : ${securityPort}.'
+                bat "cmd /c netstat -ano | findstr :${securityPort} > nul && (for /f \"tokens=5\" %a in (\'netstat -ano ^| findstr :${securityPort}\') do taskkill /F /PID %a) || echo Pas de processus trouvés utilisant le port : ${securityPort}."
             }
 		}
         	
